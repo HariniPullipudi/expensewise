@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budgets - ExpenseWise</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <div>
+          <div class="brand-text">ExpenseWise</div>
+          <span class="brand-tag">FINTECH APP</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/dashboard.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/transactions.html" class="nav-link">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Transactions</span>
+        </a>
+        <a href="/budgets.html" class="nav-link active">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Budgets</span>
+        </a>
+        <a href="/reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Reports & CSV</span>
+        </a>
+        <a href="/settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-email" id="sidebar-user-email">user@example.com</div>
+          </div>
+          <button class="btn-logout" title="Sign Out" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" title="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 class="page-title">Category Budgets</h1>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary" onclick="openModal('add-budget-modal')">
+            <i class="fa-solid fa-plus"></i>
+            <span>Set New Budget</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Container -->
+      <main class="page-container">
+
+        <!-- Toolbar / Period Selector -->
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <label style="font-size: 0.88rem; font-weight: 600; color: var(--text-muted);">Budget Month & Year:</label>
+            <select id="budget-month-filter" class="form-control" style="width: auto;">
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+            <input type="number" id="budget-year-filter" class="form-control" style="width: 100px;" min="2000" max="2100" />
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i>
+            Budgets track expense transactions in real-time.
+          </div>
+        </div>
+
+        <!-- Budget Summary Banner -->
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2rem;">
+          <div class="stat-card">
+            <div class="stat-icon budget">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Allocated</div>
+              <div class="stat-value" id="total-budget-allocated">₹0.00</div>
+              <div class="stat-subtext">Sum of monthly limits</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon expense">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Actual Spent</div>
+              <div class="stat-value expense-text" id="total-budget-spent">₹0.00</div>
+              <div class="stat-subtext">Expenses in budgeted categories</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon income">
+              <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Remaining</div>
+              <div class="stat-value" id="total-budget-remaining">₹0.00</div>
+              <div class="stat-subtext" id="overall-budget-pct">0% Used</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Budgets Grid -->
+        <div class="budgets-grid" id="budgets-grid-container">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+            <i class="fa-solid fa-spinner fa-spin"></i> Loading monthly category budgets...
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Add Budget Modal -->
+  <div class="modal-backdrop" id="add-budget-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Set Monthly Budget</h3>
+        <button class="btn btn-outline btn-icon" onclick="closeModal('add-budget-modal')">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="add-budget-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="budget-category" class="form-label">Category</label>
+            <select id="budget-category" class="form-control" required></select>
+          </div>
+
+          <div class="form-group">
+            <label for="budget-amount" class="form-label">Monthly Limit (INR ₹)</label>
+            <input type="number" id="budget-amount" class="form-control" step="1" min="1" placeholder="e.g. 5000" required />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="budget-month" class="form-label">Month</label>
+              <select id="budget-month" class="form-control" required>
+                <option value="1">1 - January</option>
+                <option value="2">2 - February</option>
+                <option value="3">3 - March</option>
+                <option value="4">4 - April</option>
+                <option value="5">5 - May</option>
+                <option value="6">6 - June</option>
+                <option value="7">7 - July</option>
+                <option value="8">8 - August</option>
+                <option value="9">9 - September</option>
+                <option value="10">10 - October</option>
+                <option value="11">11 - November</option>
+                <option value="12">12 - December</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="budget-year" class="form-label">Year</label>
+              <input type="number" id="budget-year" class="form-control" min="2000" max="2100" required />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="budget-desc" class="form-label">Optional Description / Target</label>
+            <input type="text" id="budget-desc" class="form-control" placeholder="e.g. Target: max 2 dine-outs per week" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('add-budget-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Budget</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Budget Modal -->
+  <div class="modal-backdrop" id="edit-budget-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Edit Budget Limit</h3>
+        <button class="btn btn-outline btn-icon" onclick="closeModal('edit-budget-modal')">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="edit-budget-form">
+        <input type="hidden" id="edit-budget-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <div id="edit-budget-category-label" style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-budget-amount" class="form-label">New Limit (INR ₹)</label>
+            <input type="number" id="edit-budget-amount" class="form-control" step="1" min="1" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="edit-budget-desc" class="form-label">Description / Target</label>
+            <input type="text" id="edit-budget-desc" class="form-control" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('edit-budget-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Limit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="delete-budget-modal">
+    <div class="modal-content" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--danger);">Delete Budget Limit</h3>
+        <button class="btn btn-outline btn-icon" onclick="closeModal('delete-budget-modal')">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-main); font-size: 0.95rem;">
+          Are you sure you want to delete this budget limit? Your existing transactions will not be deleted.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('delete-budget-modal')">Cancel</button>
+        <button type="button" id="confirm-budget-delete-btn" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application JS -->
+  <script src="/js/api.js"></script>
+  <script src="/js/budgets.js"></script>
+</body>
+</html>

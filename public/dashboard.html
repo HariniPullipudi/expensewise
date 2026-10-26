@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ExpenseWise</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- Desktop & Mobile Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <div>
+          <div class="brand-text">ExpenseWise</div>
+          <span class="brand-tag">FINTECH APP</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/dashboard.html" class="nav-link active">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/transactions.html" class="nav-link">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Transactions</span>
+        </a>
+        <a href="/budgets.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Budgets</span>
+        </a>
+        <a href="/reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Reports & CSV</span>
+        </a>
+        <a href="/settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-email" id="sidebar-user-email">user@example.com</div>
+          </div>
+          <button class="btn-logout" title="Sign Out" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Sticky Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" title="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 class="page-title">Financial Dashboard</h1>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary" onclick="openModal('quick-add-modal')">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Transaction</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Container -->
+      <main class="page-container">
+
+        <!-- Toolbar / Date Range Filter -->
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <label for="period-filter" style="font-size: 0.88rem; font-weight: 600; color: var(--text-muted);">Period:</label>
+            <select id="period-filter" class="form-control" style="width: auto; min-width: 150px;">
+              <option value="this-month" selected>This Month</option>
+              <option value="last-month">Last Month</option>
+              <option value="last-30-days">Last 30 Days</option>
+              <option value="this-year">This Year</option>
+              <option value="all">All Time</option>
+              <option value="custom">Custom Range</option>
+            </select>
+          </div>
+
+          <div id="custom-date-inputs" class="toolbar-group" style="display: none;">
+            <input type="date" id="custom-start" class="form-control" style="width: auto;" />
+            <span style="color: var(--text-muted); font-size: 0.85rem;">to</span>
+            <input type="date" id="custom-end" class="form-control" style="width: auto;" />
+            <button id="apply-custom-date" class="btn btn-outline btn-sm">Apply</button>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon income">
+              <i class="fa-solid fa-arrow-down-long"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Income</div>
+              <div class="stat-value income-text" id="stat-income">₹0.00</div>
+              <div class="stat-subtext">Selected period</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon expense">
+              <i class="fa-solid fa-arrow-up-long"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Expenses</div>
+              <div class="stat-value expense-text" id="stat-expenses">₹0.00</div>
+              <div class="stat-subtext">Selected period</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon balance">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Net Balance</div>
+              <div class="stat-value" id="stat-net-balance">₹0.00</div>
+              <div class="stat-subtext">Income minus expenses</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon count">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Transactions</div>
+              <div class="stat-value" id="stat-count">0</div>
+              <div class="stat-subtext">In current period</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon budget">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Monthly Budget</div>
+              <div class="stat-value" id="stat-budget-usage">0%</div>
+              <div class="stat-subtext" id="stat-budget-subtext">Monthly spending usage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Charts Grid (4 Charts) -->
+        <div class="charts-grid">
+          <!-- Chart 1: Expense Distribution Doughnut -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Expense Distribution</h3>
+                <p class="card-subtitle">Spending breakdown grouped by category</p>
+              </div>
+              <span class="badge badge-category"><i class="fa-solid fa-chart-pie"></i> Doughnut</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="expenseDistributionChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Income vs Expenses 6-Month Comparison Bar Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Income vs Expenses</h3>
+                <p class="card-subtitle">Monthly cashflow comparison over the last 6 months</p>
+              </div>
+              <span class="badge badge-category"><i class="fa-solid fa-chart-column"></i> Bar</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="incomeExpenseChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 3: Spending Trend Line Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Spending Trend</h3>
+                <p class="card-subtitle">Daily expenditure trajectory across the period</p>
+              </div>
+              <span class="badge badge-category"><i class="fa-solid fa-chart-line"></i> Line</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="spendingTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 4: Top Spending Categories Ranking Bar Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Highest Spending Categories</h3>
+                <p class="card-subtitle">Categories ranked by total outflow</p>
+              </div>
+              <span class="badge badge-category"><i class="fa-solid fa-bars-staggered"></i> Ranking</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="categoryRankingChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Recent Transactions</h3>
+              <p class="card-subtitle">Latest recorded income and expenses</p>
+            </div>
+            <a href="/transactions.html" class="btn btn-outline btn-sm">
+              <span>View All Transactions</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Payment</th>
+                  <th>Type</th>
+                  <th style="text-align: right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="recent-transactions-list">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading records...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Quick Add Transaction Modal -->
+  <div class="modal-backdrop" id="quick-add-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Record Transaction</h3>
+        <button class="btn btn-outline btn-icon" onclick="closeModal('quick-add-modal')">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="quick-add-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="tx-title" class="form-label">Title / Description</label>
+            <input type="text" id="tx-title" class="form-control" placeholder="e.g. Grocery shopping, Freelance stipend" required />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="tx-type" class="form-label">Type</label>
+              <select id="tx-type" class="form-control" required>
+                <option value="expense" selected>Expense</option>
+                <option value="income">Income</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="tx-amount" class="form-label">Amount (INR ₹)</label>
+              <input type="number" id="tx-amount" class="form-control" step="0.01" min="0.01" placeholder="0.00" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="tx-category" class="form-label">Category</label>
+              <select id="tx-category" class="form-control" required>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Housing">Housing</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Education">Education</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Travel">Travel</option>
+                <option value="Subscriptions">Subscriptions</option>
+                <option value="Personal Care">Personal Care</option>
+                <option value="Other Expenses">Other Expenses</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="tx-date" class="form-label">Date</label>
+              <input type="date" id="tx-date" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tx-payment-method" class="form-label">Payment Method</label>
+            <select id="tx-payment-method" class="form-control">
+              <option value="UPI" selected>UPI (GPay / PhonePe / Paytm)</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Cash">Cash</option>
+              <option value="Net Banking">Net Banking</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="tx-notes" class="form-label">Optional Notes</label>
+            <textarea id="tx-notes" class="form-control" rows="2" placeholder="Add additional context or reference tags"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('quick-add-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chart.js 4.x CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <!-- Application JS -->
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

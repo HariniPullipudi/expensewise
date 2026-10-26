@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Reports - ExpenseWise</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <div>
+          <div class="brand-text">ExpenseWise</div>
+          <span class="brand-tag">FINTECH APP</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/dashboard.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/transactions.html" class="nav-link">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Transactions</span>
+        </a>
+        <a href="/budgets.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Budgets</span>
+        </a>
+        <a href="/reports.html" class="nav-link active">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Reports & CSV</span>
+        </a>
+        <a href="/settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar" id="sidebar-user-avatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-email" id="sidebar-user-email">user@example.com</div>
+          </div>
+          <button class="btn-logout" title="Sign Out" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" title="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 class="page-title">Financial Reports</h1>
+        </div>
+        <div class="topbar-right">
+          <button id="print-report-btn" class="btn btn-outline" title="Print-friendly view">
+            <i class="fa-solid fa-print"></i>
+            <span>Print Report</span>
+          </button>
+          <button id="export-report-csv-btn" class="btn btn-primary">
+            <i class="fa-solid fa-file-csv"></i>
+            <span>Export to CSV</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Container -->
+      <main class="page-container">
+
+        <!-- Report Filter Card -->
+        <div class="card" style="margin-bottom: 1.75rem; padding: 1.25rem;">
+          <div class="toolbar" style="margin-bottom: 0;">
+            <div class="toolbar-group">
+              <label style="font-size: 0.88rem; font-weight: 600; color: var(--text-muted);">From:</label>
+              <input type="date" id="report-start-date" class="form-control" style="width: auto;" />
+              <label style="font-size: 0.88rem; font-weight: 600; color: var(--text-muted);">To:</label>
+              <input type="date" id="report-end-date" class="form-control" style="width: auto;" />
+            </div>
+
+            <div class="toolbar-group">
+              <select id="report-type" class="form-control" style="width: auto;">
+                <option value="all">All Types</option>
+                <option value="expense">Expenses Only</option>
+                <option value="income">Income Only</option>
+              </select>
+
+              <select id="report-category" class="form-control" style="width: auto;">
+                <option value="all">All Categories</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Housing">Housing</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Education">Education</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Travel">Travel</option>
+                <option value="Salary">Salary</option>
+                <option value="Freelancing">Freelancing</option>
+                <option value="Business">Business</option>
+                <option value="Investment Returns">Investment Returns</option>
+              </select>
+
+              <button id="generate-report-btn" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-arrows-rotate"></i> Update Report
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Period Summary Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon income"><i class="fa-solid fa-arrow-down-long"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Income</div>
+              <div class="stat-value income-text" id="report-income">₹0.00</div>
+              <div class="stat-subtext">Filtered duration</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon expense"><i class="fa-solid fa-arrow-up-long"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Expenses</div>
+              <div class="stat-value expense-text" id="report-expenses">₹0.00</div>
+              <div class="stat-subtext">Filtered duration</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon balance"><i class="fa-solid fa-scale-balanced"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Net Balance</div>
+              <div class="stat-value" id="report-net">₹0.00</div>
+              <div class="stat-subtext">Savings for period</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon count"><i class="fa-solid fa-receipt"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Entries</div>
+              <div class="stat-value" id="report-count">0</div>
+              <div class="stat-subtext">Transactions analyzed</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon budget"><i class="fa-solid fa-fire"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Top Expense Category</div>
+              <div class="stat-value" id="report-top-category" style="font-size: 1.15rem;">None</div>
+              <div class="stat-subtext">Highest outflow sector</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown & Visualization -->
+        <div class="charts-grid">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Category-wise Outflow Breakdown</h3>
+                <p class="card-subtitle">Spending proportion by category</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Count</th>
+                    <th>Total Spent</th>
+                    <th>Share of Total</th>
+                  </tr>
+                </thead>
+                <tbody id="category-breakdown-body">
+                  <tr><td colspan="4" style="text-align: center; padding: 2rem;">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Visual Allocation</h3>
+                <p class="card-subtitle">Expense share proportion</p>
+              </div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="reportCategoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matching Transactions Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Report Transaction Log</h3>
+              <p class="card-subtitle">All records included in this generated statement</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Payment Method</th>
+                  <th>Type</th>
+                  <th style="text-align: right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="report-transactions-body">
+                <tr><td colspan="6" style="text-align: center; padding: 2rem;">Loading log...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Chart.js 4.x CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <!-- Application JS -->
+  <script src="/js/api.js"></script>
+  <script src="/js/reports.js"></script>
+</body>
+</html>

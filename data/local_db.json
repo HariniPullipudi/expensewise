@@ -1,0 +1,190 @@
+{
+  "users": [
+    {
+      "_id": "65e01a1a1a1a1a1a1a1a1a01",
+      "name": "Demo Student",
+      "email": "demo@expensewise.com",
+      "passwordHash": "$2a$10$YhQUZCqd7IBub.wQOLN8reD5xI6rnHYsz0tpgsu8.j.dZICFvETK6",
+      "currency": "INR",
+      "createdAt": "2026-07-31T18:30:00.000Z",
+      "updatedAt": "2026-10-26T16:15:43.823Z"
+    }
+  ],
+  "budgets": [
+    {
+      "_id": "a482d1a45c5e47275e903f3f",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "category": "Food",
+      "amount": 8000,
+      "month": 10,
+      "year": 2026,
+      "description": "Monthly groceries and weekend takeout",
+      "createdAt": "2026-10-26T16:15:43.823Z"
+    },
+    {
+      "_id": "3a585cae507c059f47a8f38a",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "category": "Transport",
+      "amount": 3500,
+      "month": 10,
+      "year": 2026,
+      "description": "Metro card, fuel, and cab fares",
+      "createdAt": "2026-10-26T16:15:43.823Z"
+    },
+    {
+      "_id": "7b9418603b61f6b9796c935f",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "category": "Entertainment",
+      "amount": 2500,
+      "month": 10,
+      "year": 2026,
+      "description": "Movies, outings, and subscriptions",
+      "createdAt": "2026-10-26T16:15:43.823Z"
+    },
+    {
+      "_id": "e7590925631f0a44eee93fca",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "category": "Utilities",
+      "amount": 4000,
+      "month": 10,
+      "year": 2026,
+      "description": "Electricity, water, and broadband bill",
+      "createdAt": "2026-10-26T16:15:43.823Z"
+    }
+  ],
+  "transactions": [
+    {
+      "_id": "ea541735d91810f1215ee4db",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Test Automation Coffee",
+      "type": "expense",
+      "amount": 350,
+      "category": "Food",
+      "date": "2026-10-26T16:15:44.112Z",
+      "paymentMethod": "UPI",
+      "notes": "Cappuccino & cookies",
+      "createdAt": "2026-10-26T16:15:44.114Z",
+      "updatedAt": "2026-10-26T16:15:44.114Z"
+    },
+    {
+      "_id": "18c537d9270adf87560b6c51",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Monthly Salary Credit",
+      "type": "income",
+      "amount": 65000,
+      "category": "Salary",
+      "date": "2026-09-30T18:30:00.000Z",
+      "paymentMethod": "Net Banking",
+      "notes": "Corporate salary transfer",
+      "createdAt": "2026-09-30T18:30:00.000Z"
+    },
+    {
+      "_id": "6c9870cfa1c42560802005c0",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Freelance UI Design Project",
+      "type": "income",
+      "amount": 15000,
+      "category": "Freelancing",
+      "date": "2026-10-09T18:30:00.000Z",
+      "paymentMethod": "UPI",
+      "notes": "Client website redesign milestone 1",
+      "createdAt": "2026-10-09T18:30:00.000Z"
+    },
+    {
+      "_id": "a85db8281a6cef333df1fea9",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Supermarket Groceries (D-Mart)",
+      "type": "expense",
+      "amount": 4250,
+      "category": "Food",
+      "date": "2026-10-03T18:30:00.000Z",
+      "paymentMethod": "Debit Card",
+      "notes": "Monthly staples, vegetables, and pantry items",
+      "createdAt": "2026-10-03T18:30:00.000Z"
+    },
+    {
+      "_id": "69630e292c41bb989108eab3",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Weekend Dining with Family",
+      "type": "expense",
+      "amount": 1850,
+      "category": "Food",
+      "date": "2026-10-11T18:30:00.000Z",
+      "paymentMethod": "UPI",
+      "notes": "Dinner at Barbeque Nation",
+      "createdAt": "2026-10-11T18:30:00.000Z"
+    },
+    {
+      "_id": "93a3fbd6c4f8dfb17ce87e6b",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Metro SmartCard Monthly Recharge",
+      "type": "expense",
+      "amount": 1200,
+      "category": "Transport",
+      "date": "2026-10-01T18:30:00.000Z",
+      "paymentMethod": "UPI",
+      "notes": "Daily office commute",
+      "createdAt": "2026-10-01T18:30:00.000Z"
+    },
+    {
+      "_id": "6557dcf938578709fea64aad",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Electricity Bill Payment",
+      "type": "expense",
+      "amount": 2150,
+      "category": "Utilities",
+      "date": "2026-10-07T18:30:00.000Z",
+      "paymentMethod": "Net Banking",
+      "notes": "State electricity board online payment",
+      "createdAt": "2026-10-07T18:30:00.000Z"
+    },
+    {
+      "_id": "bad45e03df2d2ba1fe3bfc36",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "High-Speed Broadband Bill",
+      "type": "expense",
+      "amount": 999,
+      "category": "Utilities",
+      "date": "2026-10-10T18:30:00.000Z",
+      "paymentMethod": "UPI",
+      "notes": "Fiber 200 Mbps plan",
+      "createdAt": "2026-10-10T18:30:00.000Z"
+    },
+    {
+      "_id": "69dc9e3c7179b3d9065feb74",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Cinema Tickets & Snacks",
+      "type": "expense",
+      "amount": 850,
+      "category": "Entertainment",
+      "date": "2026-10-14T18:30:00.000Z",
+      "paymentMethod": "Credit Card",
+      "notes": "Weekend movie with friends",
+      "createdAt": "2026-10-14T18:30:00.000Z"
+    },
+    {
+      "_id": "758e86220f029548adba1130",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Streaming Subscriptions Bundle",
+      "type": "expense",
+      "amount": 699,
+      "category": "Subscriptions",
+      "date": "2026-10-04T18:30:00.000Z",
+      "paymentMethod": "Credit Card",
+      "notes": "Netflix & Spotify family plans",
+      "createdAt": "2026-10-04T18:30:00.000Z"
+    },
+    {
+      "_id": "15288dc4d8ac27af6901ce1a",
+      "user": "65e01a1a1a1a1a1a1a1a1a01",
+      "title": "Pharmacy & Health Vitamins",
+      "type": "expense",
+      "amount": 1450,
+      "category": "Healthcare",
+      "date": "2026-10-17T18:30:00.000Z",
+      "paymentMethod": "UPI",
+      "notes": "Monthly prescription & supplements",
+      "createdAt": "2026-10-17T18:30:00.000Z"
+    }
+  ]
+}
