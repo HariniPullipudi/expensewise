@@ -9,7 +9,7 @@ const csrfInit = (req, res, next) => {
     // Set cookie accessible to client-side JS so api.js can read it and send in headers
     res.cookie('XSRF-TOKEN', req.session.csrfToken, {
       httpOnly: false,
-      sameSite: 'lax',
+      sameSite: process.env.COOKIE_SECURE === 'true' ? 'none' : 'lax',
       secure: process.env.COOKIE_SECURE === 'true'
     });
   }

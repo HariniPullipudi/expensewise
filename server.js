@@ -22,6 +22,9 @@ const reportRoutes = require('./src/routes/reportRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust Render's reverse proxy so secure cookies & session work correctly in production
+app.set('trust proxy', 1);
+
 // 1. Initiate Database Connection in background (won't block server startup)
 connectDB();
 
@@ -56,11 +59,13 @@ app.use(
   })
 );
 
-// 3. CORS Configuration
-const allowedOrigin = process.env.ALLOWED_ORIGIN || `http://localhost:${PORT}`;
+// 3. CORS Configuration — allow any origin in production (Render assigns dynamic URLs)
+const allowedOrigins = process.env.ALLOWED_ORIGIN
+  ? [process.env.ALLOWED_ORIGIN]
+  : true; // true = reflect request origin (safe with credentials for same-site deploys)
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: allowedOrigins,
     credentials: true
   })
 );
@@ -98,7 +103,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: process.env.COOKIE_SECURE === 'true',
-      sameSite: 'lax',
+      sameSite: process.env.COOKIE_SECURE === 'true' ? 'none' : 'lax',
       maxAge: parseInt(process.env.SESSION_MAX_AGE_MS, 10) || 24 * 60 * 60 * 1000
     }
   })
